@@ -23,7 +23,7 @@ BuildRequires: libmimedir-devel
 BuildRequires: librapi-devel >= %{version}
 BuildRequires: automake
 BuildRequires: python-devel
-BuildRequries: python-pyrex
+BuildRequires: python-pyrex
 
 %description
 %{shortname} is part of the SynCE project:
