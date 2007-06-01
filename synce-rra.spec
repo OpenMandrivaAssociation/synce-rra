@@ -1,7 +1,7 @@
 %define name     synce-rra
 %define shortname rra
-%define release  %mkrel 3
-%define version  0.9.1
+%define release  %mkrel 1
+%define version  0.10.0
 
 %define major 0
 
@@ -12,7 +12,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 License: MIT
-Group: Development/Libraries
+Group: System/Libraries
 Source: %{name}-%{version}.tar.bz2
 Patch0: synce-unused_var.patch
 Patch1: synce-rra-fix-build.patch
@@ -22,12 +22,13 @@ BuildRequires: libsynce-devel >= %{version}
 BuildRequires: libmimedir-devel
 BuildRequires: librapi-devel >= %{version}
 BuildRequires: automake
+BuildRequires: python-devel
 
 %description
 %{shortname} is part of the SynCE project:
 
 %package -n %libname
-Group: Development/Libraries
+Group: System/Libraries
 Summary: SynCE: Communication application
 Provides: lib%{shortname} = %{version}-%{release}
 Conflicts: %{_lib}synce0 < 0.9.3
@@ -35,8 +36,17 @@ Conflicts: %{_lib}synce0 < 0.9.3
 %description -n %libname
 %{shortname} is part of the SynCE project
 
+%package -n %libname-python
+Group: System/Libraries
+Summary: SynCE: Communication application
+Provides: lib%{shortname}-python = %{version}-%{release}
+Provides: %{shortname}-python = %{version}-%{release}
+
+%description -n %libname-python
+%{shortname} is part of the SynCE project
+
 %package -n %libname-devel
-Group: Development/Libraries
+Group: System/Libraries
 Summary: SynCE: Communication application
 Provides: lib%{shortname}-devel = %{version}-%{release}
 Requires: %{libname} = %{version}-%{release}
@@ -48,7 +58,7 @@ Conflicts: %{_lib}synce0-devel < 0.9.3
 %prep
 %setup -q
 %patch0 -p1 -b .unused-var
-%patch1 -p1 -b .fix-build
+#%patch1 -p1 -b .fix-build
 
 perl -pi -e 's/-Werror//' lib/Makefile.in
 
@@ -78,6 +88,7 @@ perl -pi -e 's/-Werror//' lib/Makefile.in
 %_libdir/*.la
 %_libdir/*.a
 %_includedir/rra
-%_datadir/aclocal/*.m4
+%_libdir/pkgconfig/librra.pc
 
-
+%files -n %{libname}-python
+%python_sitearch/pyrra.*
