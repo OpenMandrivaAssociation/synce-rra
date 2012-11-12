@@ -1,0 +1,261 @@
+Index: synce-rra-0.9.1/src/rra-appointment-from-vevent.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-appointment-from-vevent.c
++++ synce-rra-0.9.1/src/rra-appointment-from-vevent.c	2006-11-29 20:21:07.943542601 +0100
+@@ -11,6 +11,7 @@
+ 	long file_size = 0;
+ 	uint8_t* buffer = NULL;
+ 	size_t buffer_size = 0;
++    int xx;
+ 
+ 	if (argc < 3)
+ 	{
+@@ -31,7 +32,7 @@
+ 	fseek(file, 0, SEEK_SET);
+ 
+ 	vevent = (char*)malloc(file_size + 1);
+-	fread(vevent, file_size, 1, file);
++	xx = fread(vevent, file_size, 1, file);
+ 	vevent[file_size] = '\0';
+ 	fclose(file);
+ 	file = NULL;
+@@ -55,7 +56,7 @@
+ 		goto exit;
+ 	}
+ 
+-	fwrite(buffer, buffer_size, 1, file);
++	xx = fwrite(buffer, buffer_size, 1, file);
+ 
+ 	result = 0;
+ 
+Index: synce-rra-0.9.1/src/rra-appointment-to-vevent.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-appointment-to-vevent.c
++++ synce-rra-0.9.1/src/rra-appointment-to-vevent.c	2006-11-29 20:21:35.271704059 +0100
+@@ -16,6 +16,7 @@
+ 	char* vevent = NULL;
+   RRA_Timezone tzi;
+   RRA_Timezone* p_tzi = NULL;
++  int xx;
+ 
+ 	if (argc < 2)
+ 	{
+@@ -36,7 +37,7 @@
+ 	fseek(file, 0, SEEK_SET);
+ 
+ 	buffer = (uint8_t*)malloc(file_size);
+-	fread(buffer, file_size, 1, file);
++	xx = fread(buffer, file_size, 1, file);
+ 
+   if (argc >= 3)
+   {
+Index: synce-rra-0.9.1/src/rra-contact-from-vcard.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-contact-from-vcard.c
++++ synce-rra-0.9.1/src/rra-contact-from-vcard.c	2006-11-29 20:19:57.903128795 +0100
+@@ -11,6 +11,7 @@
+ 	long file_size = 0;
+ 	uint8_t* buffer = NULL;
+ 	size_t buffer_size = 0;
++    int xx;
+ 
+ 	if (argc < 3)
+ 	{
+@@ -31,7 +32,7 @@
+ 	fseek(file, 0, SEEK_SET);
+ 
+ 	vcard = (char*)malloc(file_size + 1);
+-	fread(vcard, file_size, 1, file);
++	xx = fread(vcard, file_size, 1, file);
+ 	vcard[file_size] = '\0';
+ 	fclose(file);
+ 	file = NULL;
+@@ -54,7 +55,7 @@
+ 		goto exit;
+ 	}
+ 
+-	fwrite(buffer, buffer_size, 1, file);
++	xx = fwrite(buffer, buffer_size, 1, file);
+ 
+ 	result = 0;
+ 
+Index: synce-rra-0.9.1/src/rra-contact-to-vcard.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-contact-to-vcard.c
++++ synce-rra-0.9.1/src/rra-contact-to-vcard.c	2006-11-29 20:19:05.718820484 +0100
+@@ -10,6 +10,7 @@
+ 	uint8_t* buffer = NULL;
+ 	long file_size = 0;
+ 	char* vcard = NULL;
++    int xx;
+ 
+ 	if (argc < 2)
+ 	{
+@@ -30,7 +31,7 @@
+ 	fseek(file, 0, SEEK_SET);
+ 
+ 	buffer = (uint8_t*)malloc(file_size);
+-	fread(buffer, file_size, 1, file);
++	xx = fread(buffer, file_size, 1, file);
+ 
+ 	if (!rra_contact_to_vcard(
+ 			RRA_CONTACT_ID_UNKNOWN,
+Index: synce-rra-0.9.1/src/rra-decode.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-decode.c
++++ synce-rra-0.9.1/src/rra-decode.c	2006-11-29 20:18:12.130503879 +0100
+@@ -131,7 +131,8 @@
+ 		file = fopen(filename, "w");
+ 		if (file)
+ 		{
+-			fwrite(buffer + extra, size-extra, 1, file);
++            int xx;
++			xx = fwrite(buffer + extra, size-extra, 1, file);
+ 			fclose(file);
+ 		}
+ 		else
+@@ -310,6 +311,7 @@
+ 	uint8_t* buffer = NULL;
+ 	long file_size = 0;
+   unsigned id = 0;
++    int xx;
+ 
+ 	if (argc < 2)
+ 	{
+@@ -336,7 +338,7 @@
+ 	fseek(file, 0, SEEK_SET);
+ 
+ 	buffer = (uint8_t*)malloc(file_size);
+-	fread(buffer, file_size, 1, file);
++	xx= fread(buffer, file_size, 1, file);
+ 
+ 	if (*(uint32_t*)(buffer + 4) != 0)
+ 	{
+Index: synce-rra-0.9.1/src/rra-get-data.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-get-data.c
++++ synce-rra-0.9.1/src/rra-get-data.c	2006-11-29 19:58:35.411551697 +0100
+@@ -20,6 +20,7 @@
+ 	size_t data_size = 0;
+ 	FILE* file = NULL;
+ 	RRA_SyncMgrType* type = NULL;
++    int xx;
+ 	
+ /*	synce_log_set_level(0);*/
+ 
+@@ -71,7 +72,7 @@
+ 		goto exit;
+ 	}
+ 	
+-	fwrite(data, data_size, 1, file);
++	xx = fwrite(data, data_size, 1, file);
+ 
+ 	result = 0;
+ 	
+Index: synce-rra-0.9.1/src/rra-get-recurring-appointments.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-get-recurring-appointments.c
++++ synce-rra-0.9.1/src/rra-get-recurring-appointments.c	2006-11-29 20:18:39.462665360 +0100
+@@ -87,7 +87,8 @@
+ 
+         if (file)
+         {
+-          fwrite(save_data, save_size, 1, file);
++          int xx;
++          xx = fwrite(save_data, save_size, 1, file);
+           fclose(file);
+         }
+         else
+Index: synce-rra-0.9.1/src/rra-put-data.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-put-data.c
++++ synce-rra-0.9.1/src/rra-put-data.c	2006-11-29 19:59:14.623783367 +0100
+@@ -32,6 +32,7 @@
+   size_t data_size = 0;
+   FILE* file = NULL;
+ 	RRA_SyncMgrType* type = NULL;
++  int xx;
+ 
+   /* synce_log_set_level(0); */
+ 
+@@ -85,7 +86,7 @@
+ 
+   data = (uint8_t*)malloc(data_size);
+ 
+-  fread(data, data_size, 1, file);
++  xx = fread(data, data_size, 1, file);
+ 
+   type = rra_syncmgr_type_from_name(syncmgr, type_id_str);
+   if (type)
+Index: synce-rra-0.9.1/src/rra-task-from-vtodo.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-task-from-vtodo.c
++++ synce-rra-0.9.1/src/rra-task-from-vtodo.c	2006-11-29 20:22:15.347940833 +0100
+@@ -16,6 +16,7 @@
+ 	size_t buffer_size = 0;
+   RRA_Timezone tzi;
+   RRA_Timezone* p_tzi = NULL;
++  int xx;
+ 
+ 	if (argc < 3)
+ 	{
+@@ -36,7 +37,7 @@
+ 	fseek(file, 0, SEEK_SET);
+ 
+ 	vtodo = (char*)malloc(file_size + 1);
+-	fread(vtodo, file_size, 1, file);
++	xx = fread(vtodo, file_size, 1, file);
+ 	vtodo[file_size] = '\0';
+ 	fclose(file);
+ 	file = NULL;
+@@ -85,7 +86,7 @@
+ 		goto exit;
+ 	}
+ 
+-	fwrite(buffer, buffer_size, 1, file);
++	xx = fwrite(buffer, buffer_size, 1, file);
+ 
+ 	result = 0;
+ 
+Index: synce-rra-0.9.1/src/rra-task-to-vtodo.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-task-to-vtodo.c
++++ synce-rra-0.9.1/src/rra-task-to-vtodo.c	2006-11-29 20:22:32.708043399 +0100
+@@ -11,6 +11,7 @@
+ 	uint8_t* buffer = NULL;
+ 	long file_size = 0;
+ 	char* vtodo = NULL;
++    int xx;
+ 
+ 	if (argc < 2)
+ 	{
+@@ -31,7 +32,7 @@
+ 	fseek(file, 0, SEEK_SET);
+ 
+ 	buffer = (uint8_t*)malloc(file_size);
+-	fread(buffer, file_size, 1, file);
++	xx = fread(buffer, file_size, 1, file);
+ 
+ 	if (!rra_task_to_vtodo(
+ 			0,
+Index: synce-rra-0.9.1/src/rra-timezone.c
+===================================================================
+--- synce-rra-0.9.1/src/rra-timezone.c
++++ synce-rra-0.9.1/src/rra-timezone.c	2006-11-29 20:22:58.756197294 +0100
+@@ -222,6 +222,7 @@
+   char* output_filename;
+   OutputFormat format;
+   FILE* output = stdout;
++  int xx;
+ 
+   if (!handle_parameters(argc, argv, &input_filename, &output_filename, &format))
+     goto exit;
+@@ -251,7 +252,7 @@
+         goto exit;
+       }
+       
+-      fwrite(&tzi, sizeof(RRA_Timezone), 1, output);
++      xx = fwrite(&tzi, sizeof(RRA_Timezone), 1, output);
+       break;
+ 
+     case FORMAT_RAW:

@@ -1,0 +1,9 @@
+--- synce-rra-0.9.1/lib/Makefile.am~	2004-08-17 18:13:21.000000000 +0200
++++ synce-rra-0.9.1/lib/Makefile.am	2005-07-21 22:23:41.000000000 +0200
+@@ -1,5 +1,5 @@
+ ## useful flags
+-AM_CFLAGS = -g -Wall -Wsign-compare -Wno-long-long -Werror -ansi @CFLAGS@ -I..
++AM_CFLAGS = -g -Wall -Wsign-compare -Wno-long-long -ansi @CFLAGS@ -I..
+ ## @APPLE_CFLAGS@
+ 
+ includedir = @includedir@/rra
