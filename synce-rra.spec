@@ -16,7 +16,7 @@ Group: System/Libraries
 Source: %{name}-%{version}.tar.bz2
 Patch0: synce-unused_var.patch
 Patch1: synce-rra-fix-build.patch
-URL: http://synce.sourceforge.net/
+URL: https://synce.sourceforge.net/
 Buildroot: %{_tmppath}/%name-root
 BuildRequires: libsynce-devel >= %{version}
 BuildRequires: libmimedir-devel
